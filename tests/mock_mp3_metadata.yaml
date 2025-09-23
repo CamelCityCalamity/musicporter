@@ -1,0 +1,185 @@
+# Mock MP3 metadata for test data generation (hierarchical)
+# Structure: artist > albums > tracks
+# Each track has: title, genre, year, length (seconds), rating
+
+- artist: Thunder Lizards
+  albums:
+    - album: Stone Age Groove
+      year: 2021
+      tracks:
+        - title: Rock the Bones
+          genre: Rock
+          length: 210
+          rating: 5
+        - title: Fossil Fuel
+          genre: Rock
+          length: 198
+          rating: 4
+        - title: Lava Lamp
+          genre: Rock
+          length: 220
+          rating: 3
+    - album: Fossilized Funk
+      year: 2022
+      tracks:
+        - title: Petrified Blues
+          genre: Rock
+          length: 230
+          rating: 2
+        - title: Dino Disco
+          genre: Rock
+          length: 205
+          rating: 5
+
+- artist: Neon Skyline
+  albums:
+    - album: City Lights
+      year: 2020
+      tracks:
+        - title: Night Drive
+          genre: Pop
+          length: 192
+          rating: 4
+        - title: Skyline Dreams
+          genre: Pop
+          length: 205
+          rating: 3
+        - title: Electric Heart
+          genre: Pop
+          length: 215
+          rating: 5
+    - album: Neon Nights
+      year: 2021
+      tracks:
+        - title: Dusk to Dawn
+          genre: Pop
+          length: 180
+          rating: 2
+        - title: Midnight Pulse
+          genre: Pop
+          length: 210
+          rating: 1
+
+- artist: Blue Note Quartet
+  albums:
+    - album: Midnight Sessions
+      year: 2019
+      tracks:
+        - title: Blue Hour
+          genre: Jazz
+          length: 240
+          rating: 3
+        - title: Afterglow
+          genre: Jazz
+          length: 230
+          rating: 4
+        - title: Nightcap
+          genre: Jazz
+          length: 220
+          rating: 5
+
+- artist: Arpeggio
+  albums:
+    - album: Strings & Things
+      year: 2022
+      tracks:
+        - title: Plucked Memories
+          genre: Instrumental
+          length: 200
+          rating: 4
+        - title: Bowed Reflections
+          genre: Instrumental
+          length: 210
+          rating: 3
+        - title: Harmonic Drift
+          genre: Instrumental
+          length: 195
+          rating: 5
+
+- artist: Various Artists
+  albums:
+    - album: Pixel Quest
+      year: 2018
+      tracks:
+        - title: Main Theme
+          genre: Soundtrack
+          length: 180
+          rating: 5
+        - title: Level Up
+          genre: Soundtrack
+          length: 190
+          rating: 2
+
+- artist: 8Bit Heroes
+  albums:
+    - album: Retro Adventure
+      year: 2017
+      tracks:
+        - title: Start Game
+          genre: Video Game
+          length: 175
+          rating: 3
+        - title: Boss Battle
+          genre: Video Game
+          length: 200
+          rating: 5
+        - title: Victory Fanfare
+          genre: Video Game
+          length: 185
+          rating: 1
+
+- artist: Simon & Garfunkel
+  albums:
+    - album: Bridge Over Troubled Water
+      year: 1970
+      tracks:
+        - title: The Boxer
+          genre: Folk
+          length: 250
+          rating: 5
+        - title: Cecilia
+          genre: Folk
+          length: 180
+          rating: 4
+
+- artist: Paul Simon
+  albums:
+    - album: Graceland
+      year: 1986
+      tracks:
+        - title: Graceland
+          genre: Folk
+          length: 240
+          rating: 5
+        - title: You Can Call Me Al
+          genre: Folk
+          length: 220
+          rating: 3
+        - title: Diamonds on the Soles of Her Shoes
+          genre: Folk
+          length: 210
+          rating: 4
+
+- artist: Nearly No Tags
+  albums:
+    - album: Test Album 1
+      tracks:
+        - title: Track One
+          length: 223
+
+- artist:
+  albums:
+    - album:
+      tracks:
+        - title:
+          length: 223
+
+- artist: Test Literal None
+  albums:
+    - album: None Album
+      year: 2025
+      tracks:
+        - title: None Song
+          genre: None
+          length: 123
+          rating: 2

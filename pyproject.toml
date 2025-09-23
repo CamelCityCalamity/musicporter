@@ -1,0 +1,20 @@
+[project]
+name = "musicporter"
+version = "0.1.1"
+description = "Smart playlist maker and music copying tool"
+authors = [
+    { name = "Camel City Calamity" }
+]
+license = { text = "GPL-3.0-or-later" }
+dependencies = [
+    "eyed3",
+    "lark",
+    "PyYAML"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+musicporter = "musicporter.main:main"
