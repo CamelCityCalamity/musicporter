@@ -55,7 +55,7 @@ musicporter -m /mnt/data/Music -m "/mnt/data/Music Singles" -y config/my-playlis
 This command does the following:
 
 1. Scans for files in two separate folders: "Music" and "Music Singles"
-2. Reads my smart playlists definiteions from `./config/my-playlists.yaml`
+2. Reads my smart playlists definitions from `./config/my-playlists.yaml`
 3. Also reads my static playlists stored in `./static-playlists`
 4. Performs a search/replace on all playlist paths to replace `/mnt/data/` with `storage/emulated/0`
 5. Copies all referenced MP3s and all playlists to a folder named `./output`
@@ -113,17 +113,17 @@ Check out the example YAML config for criteria examples, and see the Playlist Cr
 
 ### 3. Collect music
 
-After the smart playlists are generated, the program copies all music files referenced by them to the output directory, preserving their relative directory structure. It does the same for any static playlists you specified. This is the main feature of the program, collecting only the music files you want on your device.
+After the smart playlists are generated, the program copies all music files referenced by them to the output directory, preserving their relative directory structure. It does the same for any static playlists you specified. This is the main feature of the program: collecting only the music files you want on your device.
 
 ### 4. Rewrite playlists
 
-Copy all of the m3u8 files to the output Playlists folder, rewriting path prefixes inside each playlist. This is for changing local music paths to be what your target device needs. For exmaple, your music might be in `/home/your_name/Music`, but on your Android phone, maybe the path in the playlist files needs to be `/storage/emulated/0/Music`. The search/replace feature lets you rewrite the paths before copying the playlists to the output folder.
+Copy all of the m3u8 files to the output Playlists folder, rewriting path prefixes inside each playlist. This is for changing local music paths to be what your target device needs. For example, your music might be in `/home/your_name/Music`, but on your Android phone, maybe the path in the playlist files needs to be `/storage/emulated/0/Music`. The search/replace feature lets you rewrite the paths before copying the playlists to the output folder.
 
 ### Manually syncing the result
 
 Once this is all done, it's up to you to use your favorite program to sync the music files and playlists to your device. Personally, I use the GUI program [Beyond Compare](https://www.scootersoftware.com/) to run a folder comparison and mirror the local output to my phone. It lets me ignore file time differences and only sync new files while deleting orphans (files that are no longer referenced in my playlists). I connect my phone using MTP, and mount it in the filesystem using simple-mtpfs.
 
-I will include the bash file I use to mount my phone below.
+I will include the bash file I use to mount my phone at the bottom of this readme.
 
 ## Playlist Criteria
 
@@ -297,7 +297,7 @@ else
         rmdir "$MOUNT_DIR"
     fi
 
-    # Recreate mount directory
+    # Make mount directory
     mkdir -p "$MOUNT_DIR"
 
     echo "Mounting device with simple-mtpfs"
