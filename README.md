@@ -1,7 +1,6 @@
 # musicporter
 
-musicporter is a command-line tool for generating, rewriting, and copying music playlists and their referenced files. It is designed to create and migrate music for use on Android devices or other platforms.
-
+musicporter is a command-line tool which helps you copy playlists of MP3s from your PC to your phone (or another device). It lets you create smart playlists that match just the MP3s you want on your device, and also supports copying static playlists you might already have. It gathers up just the MP3s referenced by these playlists into one location for easily syncing to your device, while rewriting them to have file paths that will work on your device instead of the paths on your PC.
 
 ## Motivation
 
