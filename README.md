@@ -42,13 +42,34 @@ python -m venv .venv
 pip install .
 ```
 
+### Running the program
+
 After installation, with the virtual environment activated, you can run the CLI. (You will need to activate the venv each time you close and reopen your command line.)
 
-Here's a full example command line:
+Here's a full example command:
 
 ```bash
 musicporter -m /mnt/data/Music -m "/mnt/data/Music Singles" -y config/my-playlists.yaml -p static-playlists -r /mnt/data::/storage/emulated/0 output
 ```
+
+This command does the following:
+
+1. Scans for files in two separate folders: "Music" and "Music Singles"
+2. Reads my smart playlists definiteions from `./config/my-playlists.yaml`
+3. Also reads my static playlists stored in `./static-playlists`
+4. Performs a search/replace on all playlist paths to replace `/mnt/data/` with `storage/emulated/0`
+5. Copies all referenced MP3s and all playlists to a folder named `./output`
+
+The resultant directory structure is:
+
+```
+./output
+├── Music
+├── Music Singles
+└── Playlists
+```
+
+### Program arguments
 
 Use `musicporter --help` for details on options:
 
@@ -96,9 +117,13 @@ After the smart playlists are generated, the program copies all music files refe
 
 ### 4. Rewrite playlists
 
-Copy all of the m3u8 files to the output Playlists folder, rewriting path prefixes inside each playlist. This is for changing local music paths to be what your target device needs. For exmaple, your music might be in `/home/your_name/Music`, but on your Android phone, maybe the path in the playlist files needs to be `/storage/emulated/0/Music`. The search/replace feature lets you rewrite the paths before copying them to the output folder.
+Copy all of the m3u8 files to the output Playlists folder, rewriting path prefixes inside each playlist. This is for changing local music paths to be what your target device needs. For exmaple, your music might be in `/home/your_name/Music`, but on your Android phone, maybe the path in the playlist files needs to be `/storage/emulated/0/Music`. The search/replace feature lets you rewrite the paths before copying the playlists to the output folder.
 
-Once this is done, it's up to you to use your favorite program to sync the music files and playlists to your device.
+### Manually syncing the result
+
+Once this is all done, it's up to you to use your favorite program to sync the music files and playlists to your device. Personally, I use the GUI program [Beyond Compare](https://www.scootersoftware.com/) to run a folder comparison and mirror the local output to my phone. It lets me ignore file time differences and only sync new files while deleting orphans (files that are no longer referenced in my playlists). I connect my phone using MTP, and mount it in the filesystem using simple-mtpfs.
+
+I will include the bash file I use to mount my phone below.
 
 ## Playlist Criteria
 
@@ -223,3 +248,70 @@ To run all of the tests, simply run `pytest` in the root of the project folder.
 ## License
 
 This project is licensed under the terms of the GNU General Public License v3.0 or later (GPL-3.0-or-later). See the LICENSE file for details.
+
+## Mounting phone with simple-mtpfs under KDE
+
+This is the bash script I use to mount my phone via MTP. I'm sure it can be improved.
+
+```bash
+#!/usr/bin/env bash
+
+ID="18d1:4ee2" # Pixel 7 Pro
+MOUNT_DIR="/home/me/.local/share/mounts/phone/"
+
+# Remove a trailing slash from MOUNT_DIR if it's there, since it's not in the output of `mount`
+MOUNT_DIR="${MOUNT_DIR%/}"
+
+if mount | grep -q "simple-mtpfs.*$MOUNT_DIR"; then
+    echo "$MOUNT_DIR is already mounted with simple-mtpfs."
+else
+    # Make sure phone is connected by MTP
+    if mtp-detect 2>/dev/null | grep -q "No raw devices found"; then
+        echo "Phone not connected. Please connect your phone via MTP."
+        exit 1
+    fi
+
+    #Getting device data from lsusb using its ID. This is only so we can kill any process using it
+    DATA=`lsusb | grep "$ID"`
+    if [[ -z "$DATA" ]]; then
+        echo "Device with ID $ID not found in lsusb output."
+        exit 1
+    fi
+
+    # Reading the bus number:
+    BUS=`echo ${DATA:4:3}`
+
+    # Reading the device number:
+    DEV=`echo ${DATA:15:3}`
+
+    echo "Found device: 18d1:4ee2 at $BUS/$DEV"
+
+    # This is required when using KDE, because the device will already be in use, even if not yet mounted
+    echo "Killing process using device"
+    fuser -k /dev/bus/usb/$BUS/$DEV
+
+    # Clean up and remake mount directory
+    if [ -d "$MOUNT_DIR" ]; then
+        echo "Unmounting and removing $MOUNT_DIR if needed"
+        fusermount -u "$MOUNT_DIR"
+        rmdir "$MOUNT_DIR"
+    fi
+
+    # Recreate mount directory
+    mkdir -p "$MOUNT_DIR"
+
+    echo "Mounting device with simple-mtpfs"
+    if ! simple-mtpfs --device 1 "$MOUNT_DIR"; then
+        echo "Failed to mount phone with simple-mtpfs."
+        exit 1
+    fi
+fi
+
+if ! musicporter -m /mnt/data/Music -m "/mnt/data/Music Singles" -y config/my-playlists.yaml -p static-playlists -r /mnt/data::/storage/emulated/0 output; then
+    echo "Failed to prepare music with musicporter."
+    exit 1
+fi
+
+# Run Beyond Compare using the name of my previously saved session
+bcompare musicporter &
+```
