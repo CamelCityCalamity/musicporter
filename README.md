@@ -1,10 +1,10 @@
-# musicporter
+# MusicPorter
 
-musicporter is a command-line tool which helps you copy playlists of MP3s from your PC to your phone (or another device). It lets you create smart playlists that match just the MP3s you want on your device, and also supports copying static playlists you might already have. It gathers up just the MP3s referenced by these playlists into one location for easily syncing to your device, while rewriting them to have file paths that will work on your device instead of the paths on your PC.
+MusicPorter is a command-line tool which helps you copy playlists of MP3s from your PC to your phone (or another device). It lets you create smart playlists that match just the MP3s you want on your device, and also supports copying static playlists you might already have. It gathers up just the MP3s referenced by these playlists into one location for easily syncing to your device, while rewriting them to have file paths that will work on your device instead of the paths on your PC.
 
 ## Motivation
 
-I have much more music on my PC than my phone can hold. I created this tool so I can copy just the "greatest hits" from my favorite artists (with playlists) to my Android phone. I use [Pi Music Player](https://pimusicplayer.com/) on Android which can load m3u8 files from the Android file system into its database. This tool copies just the music matching my criteria to a folder that I can easily sync to my phone's Music and Playlists folder.
+I have much more music on my PC than my phone can hold. I created this tool so I can copy just the "greatest hits" from my favorite artists (with playlists) to my Android phone. I use [Pi Music Player](https://pimusicplayer.com/) on Android which can load m3u8 files from the Android file system into its database. MusicPorter copies just the music matching my criteria to a folder that I can easily sync to my phone's Music and Playlists folder.
 
 ## Features
 
