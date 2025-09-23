@@ -213,7 +213,7 @@ You can use these operators to compare fields and values:
 - Use `and` and `or` to combine multiple conditions.
 - Parentheses `()` can group conditions and control precedence.
 
-#### Examples
+### Criteria Examples
 
 - `artist contains ('Crosby', 'Young') and rating >= 3`
 - `genre in ('Pop', 'Electronic') and year >= 2010`
