@@ -193,13 +193,13 @@ When defining playlists in your YAML config, you can use a flexible, SQL-like fi
 You can use these operators to compare fields and values:
 
 - `=` or `==` or `is`: Exact match (e.g., `artist = 'The Beatles'`)
-- `!=` or `<>`: Not exactly equal
+- `!=` or `<>`: Not exactly matching a value (e.g., `artist != 'The Beatles`)
 - `>` or `<` or `>=` or `<=`: For numbers (e.g., `year >= 2000` or `rating < 4`)
 - `contains` or `has`: Field contains a substring or any substring from a list (e.g., `artist contains 'Young'` or `artist contains ('Young', 'Money')`)
 - `in`: Field matches any *exact* match from a list (e.g., `genre in ('Rock', 'Pop')`)
 - `starts with`: Field starts with a substring (e.g., `artist starts with 'The'`)
 - `ends with`: Field ends with a substring (e.g., `title ends with 'Love'`)
-- These operators support adding "not": `not is`, `not contains`, `not has`, `not starts with`, `not ends with` (e.g., `genre not starts with 'Video Game'`)
+- These operators support adding "not": `is not` (or `not is`), `not contains`, `not has`, `not starts with`, `not ends with` (e.g., `genre not starts with 'Video Game'`)
 - All comparisons are case-insensitive
 
 ### Value Types
