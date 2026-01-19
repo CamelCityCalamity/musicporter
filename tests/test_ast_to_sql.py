@@ -60,3 +60,15 @@ def test_to_sql_not_is_null():
     sql, params = ASTtoSQL().to_sql(ast)
     assert sql == expected_sql
     assert params == expected_params
+
+def test_to_sql_contains_and_rating_ge():
+    ast = (
+        'and',
+        ('comparison', 'artist', 'contains', 'Neon Skyline'),
+        ('comparison', 'rating', '>=', 3)
+    )
+    expected_sql = "(artist LIKE ? AND rating >= ?)"
+    expected_params = ["%Neon Skyline%", 3]
+    sql, params = ASTtoSQL().to_sql(ast)
+    assert sql == expected_sql
+    assert params == expected_params

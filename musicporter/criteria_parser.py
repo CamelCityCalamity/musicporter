@@ -71,7 +71,10 @@ class CriteriaTransformer(Transformer):
     def in_expr(self, field, values):
         return ('in', field, values)
     def contains_expr(self, field, values):
-        return ('contains_any', field, values)
+        # For lists, we want to use contains-any, but for single items, use contains.
+        if isinstance(values, list):
+            return ('contains_any', field, values)
+        return ('comparison', field, 'contains', values)
     # No cmp_op method needed; CMPOP is a terminal and will be passed as a string
     def comparison(self, field, op, value):
         return ('comparison', field, str(op), value)

@@ -328,3 +328,25 @@ playlists:
     ]
     playlist_file = tmp_path / "Genre Not Rock.m3u8"
     check_playlist_file(playlist_file, expected_tracks)
+
+def test_neon_skyline_and_rating_ge(tmp_path):
+    config_yaml = f"""
+output_path: {tmp_path}
+music_paths:
+  - {TESTDATA_DIR}
+playlists:
+  - name: Neon Skyline High Rating
+    criteria: artist contains 'Neon Skyline' and rating >= 3
+"""
+    config_path = tmp_path / "test_config.yaml"
+    config_path.write_text(config_yaml)
+
+    run_playlist_generator(str(config_path))
+
+    expected_tracks = [
+        "Neon Skyline/City Lights/01 Night Drive.mp3",
+        "Neon Skyline/City Lights/02 Skyline Dreams.mp3",
+        "Neon Skyline/City Lights/03 Electric Heart.mp3",
+    ]
+    playlist_file = tmp_path / "Neon Skyline High Rating.m3u8"
+    check_playlist_file(playlist_file, expected_tracks)

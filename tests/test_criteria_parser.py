@@ -83,3 +83,13 @@ def test_not_operator_is():
     )
     assert ast == expected
 
+def test_artist_contains_and_rating_ge():
+    parser = CriteriaParser()
+    ast = parser.parse("artist contains 'Neon Skyline' and rating >= 3")
+    expected = (
+        'and',
+        ('comparison', 'artist', 'contains', 'Neon Skyline'),
+        ('comparison', 'rating', '>=', 3)
+    )
+    assert ast == expected
+
