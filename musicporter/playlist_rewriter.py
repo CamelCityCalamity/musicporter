@@ -1,10 +1,11 @@
 
 import os
 import logging
+from musicporter.path_utils import escape_m3u8_path
 
 class PlaylistRewriter:
     """
-    Copies m3u8 playlist files from a source directory to a target directory, translating path prefixes inside each playlist.
+    Copies m3u8 playlist files from a source directory to a target directory, translating path prefixes inside each playlist and escaping problematic characters.
     """
     def __init__(self, logger=None):
         self.logger = logger or logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class PlaylistRewriter:
             with open(src_path, 'r', encoding='utf-8') as fin, open(dest_path, 'w', encoding='utf-8') as fout:
                 for line in fin:
                     if line.strip() and not line.startswith('#'):
-                        new_line = line.replace(search, replace)
+                        new_line = escape_m3u8_path(line.replace(search, replace))
                         fout.write(new_line)
                     else:
                         fout.write(line)

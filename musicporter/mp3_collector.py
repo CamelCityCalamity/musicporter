@@ -1,6 +1,7 @@
 import os
 import shutil
 import logging
+from musicporter.path_utils import unescape_m3u8_path
 
 class Mp3Collector:
     """
@@ -35,7 +36,10 @@ class Mp3Collector:
                 for line in f:
                     line = line.strip()
                     if line and not line.startswith('#'):
-                        referenced_files.add(line)
+                        # playlists may contain percent-encoded sequences for
+                        # problematic characters; unescape them so the file
+                        # collector can find the referenced files on disk.
+                        referenced_files.add(unescape_m3u8_path(line))
 
         if not referenced_files:
             self.logger.warning("No referenced files found in playlists.")

@@ -7,10 +7,11 @@ def test_rewrite_playlists(tmp_path):
     src_dir = tmp_path / "playlists"
     src_dir.mkdir()
     m3u_file = src_dir / "test.m3u8"
-    # Use two lines to rewrite, one to leave alone
+    # Use three lines to rewrite, one to leave alone
     m3u_file.write_text("""#EXTM3U
 /source/music/Artist/Album/song1.mp3
 /source/music/Artist/Album/song2.mp3
+/source/music/Artist/Album/song%#?.mp3
 #EXTINF:123,Some Info
 """)
 
@@ -32,4 +33,6 @@ def test_rewrite_playlists(tmp_path):
     assert lines[0] == "#EXTM3U"
     assert lines[1] == "/target/music/Artist/Album/song1.mp3"
     assert lines[2] == "/target/music/Artist/Album/song2.mp3"
-    assert lines[3] == "#EXTINF:123,Some Info"
+    # ensure a path containing '#', '%' and '?' is URL-encoded and rewritten correctly
+    assert lines[3] == "/target/music/Artist/Album/song%25%23%3F.mp3"
+    assert lines[4] == "#EXTINF:123,Some Info"

@@ -4,6 +4,7 @@ import logging
 from musicporter.criteria_parser import CriteriaParser
 from musicporter.ast_to_sql import ASTtoSQL
 from musicporter.db import TrackDB
+from musicporter.path_utils import escape_m3u8_path
 from typing import TypedDict
 
 class PlaylistDef(TypedDict):
@@ -72,5 +73,5 @@ class PlaylistGenerator:
                 f.write("#EXTM3U\n")
                 f.write(f"#Criteria: {criteria}\n")
                 for track in tracks:
-                    f.write(f"{track.path}\n")
+                    f.write(f"{escape_m3u8_path(track.path)}\n")
         db.close()
