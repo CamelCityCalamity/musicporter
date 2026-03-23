@@ -4,6 +4,7 @@ import shutil
 import yaml
 import pathlib
 from musicporter.main import main
+from musicporter.path_utils import escape_m3u8_path
 
 def test_main_path_map_empty_search():
     # Simulate CLI args with malformed --path-map (empty search)
@@ -238,9 +239,9 @@ def test_main_fully_featured_run(tmp_path):
         ('Modern Fives', modern_fives_expected, "rating = 5 and year >= 2000"),
     ]
 
-    for name, expected_rel, criteria in smart_playlists:
+    for name, expected_relative_paths, criteria in smart_playlists:
         pl_path = playlists_out / (name + '.m3u8')
-        expected_full = [
-            f"{android_storage_prefix}{rel}" for rel in expected_rel
+        expected_full_paths = [
+            f"{android_storage_prefix}{escape_m3u8_path(relative_path)}" for relative_path in expected_relative_paths
         ]
-        _assert_playlist_matches(pl_path, expected_full, criteria)
+        _assert_playlist_matches(pl_path, expected_full_paths, criteria)

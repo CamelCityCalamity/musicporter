@@ -129,34 +129,16 @@ def main(argv=None):
     if args.search_replace:
         # these have already been validated above.
         rewrite_pairs = [pair.split("::", 1) for pair in args.search_replace]
-        if args.verbose:
-            print(f"Rewriting playlists in {temp_playlist_dir} to {playlists_out} with pairs: {rewrite_pairs}")
-        else:
-            print(f"Rewriting playlists")
-        from musicporter.playlist_rewriter import PlaylistRewriter
-        rewriter = PlaylistRewriter()
-        for fname in os.listdir(temp_playlist_dir):
-            if fname.lower().endswith('.m3u8'):
-                src = os.path.join(temp_playlist_dir, fname)
-                dst = os.path.join(playlists_out, fname)
-                # Apply all rewrite pairs in order
-                with open(src, 'r', encoding='utf-8') as f:
-                    lines = f.readlines()
-                new_lines = []
-                for line in lines:
-                    new_line = line
-                    for search, replace in rewrite_pairs:
-                        new_line = new_line.replace(search, replace)
-                    new_lines.append(new_line)
-                with open(dst, 'w', encoding='utf-8') as f:
-                    f.writelines(new_lines)
     else:
-        # Just copy playlists as-is
-        if args.verbose:
-            print(f"Copying playlists from {temp_playlist_dir} to {playlists_out}")
-        for fname in os.listdir(temp_playlist_dir):
-            if fname.lower().endswith('.m3u8'):
-                shutil.copy2(os.path.join(temp_playlist_dir, fname), playlists_out)
+        rewrite_pairs = None
+
+    if args.verbose:
+        print(f"Rewriting playlists in {temp_playlist_dir} to {playlists_out} with pairs: {rewrite_pairs}")
+    else:
+        print(f"Rewriting playlists")
+    from musicporter.playlist_rewriter import PlaylistRewriter
+    rewriter = PlaylistRewriter(logger=logger)
+    rewriter.rewrite_playlists(temp_playlist_dir, playlists_out, rewrite_pairs)
 
     print("musicporter done")
 

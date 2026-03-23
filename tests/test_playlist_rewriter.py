@@ -11,18 +11,17 @@ def test_rewrite_playlists(tmp_path):
     m3u_file.write_text("""#EXTM3U
 /source/music/Artist/Album/song1.mp3
 /source/music/Artist/Album/song2.mp3
-/source/music/Artist/Album/song%#?.mp3
+/source/music/Artist/Album/song%#?&.mp3
 #EXTINF:123,Some Info
 """)
 
     # Output directory
     out_dir = tmp_path / "rewritten"
-    search = "/source/music"
-    replace = "/target/music"
+    rewrite_pairs = [["/source/music", "/target/music"]]
 
     # Run translator
     translator = PlaylistRewriter()
-    translator.rewrite_playlists(str(src_dir), str(out_dir), search, replace)
+    translator.rewrite_playlists(str(src_dir), str(out_dir), rewrite_pairs)
 
     # Check output file exists
     out_file = out_dir / "test.m3u8"
@@ -33,6 +32,5 @@ def test_rewrite_playlists(tmp_path):
     assert lines[0] == "#EXTM3U"
     assert lines[1] == "/target/music/Artist/Album/song1.mp3"
     assert lines[2] == "/target/music/Artist/Album/song2.mp3"
-    # ensure a path containing '#', '%' and '?' is URL-encoded and rewritten correctly
-    assert lines[3] == "/target/music/Artist/Album/song%25%23%3F.mp3"
+    assert lines[3] == "/target/music/Artist/Album/song%25%23%3F%26.mp3"
     assert lines[4] == "#EXTINF:123,Some Info"
